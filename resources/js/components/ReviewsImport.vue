@@ -5,16 +5,20 @@
             label="File input"
             v-model="file"
         ></v-file-input>
-        <div class="error" v-if="errors.length">
-            <div v-for="error in errors">{{error}}</div>
-        </div>
+        <v-alert v-if="errors.length"
+                 v-for="error in errors"
+                 color="error"
+                 icon="$error"
+                 :title="error"
+        ></v-alert>
+        <br>
         <v-btn
             elevation="2"
             dark
             x-large
             color="purple"
             block
-            @click="send"
+            @click="cut"
         >
             IMPORT
         </v-btn>
@@ -27,7 +31,7 @@ export default {
         return {
             file: [],
             errors: [],
-            jsonCsv: []
+            readyArr: []
         }
     },
     watch: {
@@ -43,57 +47,107 @@ export default {
 
             promise.then(
                 result => {
-                    const lines = result.split('\n') // 1️⃣
-                    const header = lines[0].split(',') // 2️⃣
+                    const self = this;
+                    const lines = result.split('\n')
+                    const header = lines[0].split(',')
                     const output = lines.slice(1).map(line => {
-                        const fields = line.split(',') // 3️⃣
-                        return Object.fromEntries(header.map((h, i) => [h, fields[i]])) // 4️⃣
+                        const fields = line.split(',')
+                        return Object.fromEntries(header.map((h, i) => [this.cleanNamesColumns(h), fields[i]]))
                     });
 
-                    this.errors = this.validCsv(output[0]);
+                    this.errors = this.validColumn(output[0]);
                     if(!this.errors.length) {
-                        this.jsonCsv = output;
+
+                        // let json = [];
+                        // for (const prop of output) {
+                        //     // if(output.hasOwnProperty(prop)) {
+                        //     console.log('prop', );
+                        //         let obj = {};
+                        //         obj[this.cleanNamesColumns(Object.keys(prop))] = Object.values(prop)
+                        //         json.push(obj);
+                        //     console.log(json)
+                        //         return false;
+                        //     // }
+                        // }
+
+                        console.log('output', output)
+                        // console.log('json', json)
+
+                        this.readyArr = output;
                     }
                 },
                 error => {
-
                     console.log(error);
                 }
             );
         }
     },
     methods: {
-        validCsv(o) {
-            let properties = [];
+        cleanNamesColumns(columns) {
+            return columns.replace(/\s+/, '_').replace(/"/g, '').toLowerCase()
+        },
+        validColumn(fistRow) {
             let res = [];
-
-            for (const prop in o) {
-                properties.push(prop.replace(/\s+/, '_')
-                    .replace(/"/g, '').toLowerCase()
-                );
-            }
 
             const importantFields = ['reviewer', 'email', 'review', 'rating', 'employee', 'employees_position', 'unique_employee_number', 'company', 'company_description'];
 
-            properties.forEach((property) => {
+            for(const nameColumn in fistRow ){
                 let findField = '';
                 importantFields.forEach((importantField) => {
-                    if(importantField === property) {
+                    if(importantField === nameColumn) {
                         findField = importantField;
                         return false;
                     }
                 })
                 if(findField === '') {
-                    res.push(property + ' is wrong field');
+                    res.push(nameColumn + ' is wrong field');
                 }
-            })
+            }
 
             return res;
 
         },
-        send() {
-            if(this.jsonCsv.length) return false;
-            console.log(this.jsonCsv);
+        send(url, arr) {
+            axios.post(url, {
+                data: arr
+            }, {
+                'Content-Type': 'application/json'
+            }).then((res) => {
+                console.log(res.data)
+            }).catch((res) => {
+                console.log(res)
+            })
+        },
+        cut() {
+            this.send('/position', this.readyArr.map((el) => {
+                return {
+                    employees_position: el.employees_position,
+                    unique_employee_number: el.unique_employee_number
+                }
+            }));
+            this.send('/company', this.readyArr.map((el) => {
+                return {
+                    company: el.company,
+                    company_description: el.company_description
+                }
+            }));
+            this.send('/reviewer', this.readyArr.map((el) => {
+                return {
+                    reviewer: el.reviewer,
+                    email: el.email
+                }
+            }));
+            this.send('/employee', this.readyArr.map((el) => {
+                return {
+                    employee: el.employee
+                }
+            }));
+            this.send('/review', this.readyArr.map((el) => {
+                return {
+                    review: el.review,
+                    rating: el.rating
+                }
+            }));
         }
     }
 }
