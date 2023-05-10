@@ -20,5 +20,9 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['verified', 'auth']], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
+
+Route::get('/{any?}', function () {
+    return view('dashboard');
+})->where('any', '.*');
