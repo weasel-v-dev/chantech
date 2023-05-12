@@ -1,0 +1,70 @@
+<template>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Admin dashboard</div>
+
+                    <div class="card-body">
+                        <ReviewsImport />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import ReviewsImport from '../components/ReviewsImport'
+
+    export default {
+        components: {
+            ReviewsImport
+        }
+    }
+</script>
+<!--<template>-->
+<!--    <div >-->
+<!--        <h1 v-if="a">Testimonial</h1>-->
+<!--        <div >-->
+<!--            <div v-for="item in testimonials">-->
+<!--                <h2>{{item.name}}</h2>-->
+<!--            </div>-->
+<!--            <button @click="a = !a">aaa1</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</template>-->
+
+<!--<script>-->
+
+<!--export default {-->
+<!--    data() {-->
+<!--        return {-->
+<!--            testimonials: [],-->
+<!--            a: false-->
+<!--        }-->
+<!--    },-->
+<!--    mounted() {-->
+<!--        this.getTestimonials();-->
+<!--    },-->
+<!--    methods: {-->
+<!--        scrollDown(e) {-->
+<!--            console.log(this.reviews)-->
+<!--            if (e.target.scrollTop + e.target.clientHeight === e.target.scrollHeight) {-->
+<!--                this.getTestimonials()-->
+<!--            }-->
+<!--        },-->
+<!--        getTestimonials(count = 15) {-->
+<!--            axios.get('/testimonial/'+count).then((res) => {-->
+<!--                this.testimonials = res.data.testimonials;-->
+<!--                console.log(res.data.testimonials);-->
+<!--            });-->
+<!--        }-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
+
+<!--<style scoped>-->
+
+<!--</style>-->
+

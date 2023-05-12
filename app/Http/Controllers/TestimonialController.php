@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Employee;
+use App\Http\Resources\TestimonialResource;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    public function index() {
-        foreach (Employee::all() as $item) {
-            dd(
-                $item->name,
-                $item->getCompany->name,
-                $item->getPosition->name,
-            );
-        }
-        return view('welcome');
+
+
+    public function index(Request $request) {
+//        $collectTestimonialPaginate = ;
+        return response()->json([
+            'testimonials' => TestimonialResource::collection(Review::paginate($request->total)),
+            'count' => Review::count()
+        ], 200);
     }
 }

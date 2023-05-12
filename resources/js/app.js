@@ -8,9 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 import vuetify from './vuetify'
-// import axios from "./axios";
-
-import router from "./router";
+// import router from "./router";
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,7 +21,8 @@ import router from "./router";
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('app', require('./App.vue').default);
+Vue.component('dashboard', require('./components/Dashboard').default);
+Vue.component('testimonial', require('./components/Testimonial').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -32,8 +31,6 @@ Vue.component('app', require('./App.vue').default);
  */
 
 const app = new Vue({
-    router,
-    // axios,
     vuetify,
     el: '#app'
 });
