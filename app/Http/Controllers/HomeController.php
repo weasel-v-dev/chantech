@@ -10,6 +10,7 @@ use App\Models\Position;
 use App\Models\Review;
 use App\Models\Reviewer;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
 
 class HomeController extends Controller
 {
@@ -60,26 +61,30 @@ class HomeController extends Controller
                 $position = Position::where('name', $el['employees_position'])->first();
             }
 
-
-            if(!empty($company->id) && !empty($position->id)) {
-                Employee::create([
-                    'name' => !empty($el->employee) ? $el->employee : '',
-                    'company_id' => $company->id,
-                    'position_id' => $position->id,
-                ]);
+            if(!empty($company->id) && !empty($position->id) && !empty($el['employee'])) {
+                try {
+                    (Employee::create([
+                        'name' => $el['employee'],
+                        'company_id' => $company->id,
+                        'position_id' => $position->id,
+                    ]));
+                }
+                catch (\Exception $e) {
+                    dd($company, $position, $e);
+                }
             }
         });
 
         collect($request->data)->map(function($el) {
-            $reviewer_id = Reviewer::where('name', !empty($el['reviewer']) ? $el['reviewer'] : '')->first();
-            $employee_id = Employee::where('name', !empty($el['employee']) ? $el['employee'] : '')->first();
+            $reviewer = Reviewer::where('name', !empty($el['reviewer']) ? $el['reviewer'] : '')->first();
+            $employee = Employee::where('name', !empty($el['employee']) ? $el['employee'] : '')->first();
 
-            if($reviewer_id && $employee_id) {
+            if(!empty($reviewer->id) && !empty($employee->id) && !empty($el['review']) && !empty($el['rating'])) {
                 Review::create([
-                    'description' => !empty($el['review']) ? $el['review'] : '',
-                    'rating' => !empty($el['rating']) ? $el['rating'] : '',
-                    'reviewer_id' => $reviewer_id,
-                    'employee_id' => $employee_id,
+                    'description' => $el['review'],
+                    'rating' => $el['rating'],
+                    'reviewer_id' => $reviewer->id,
+                    'employee_id' => $employee->id,
                 ]);
             }
         });

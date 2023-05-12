@@ -8,6 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 import vuetify from './vuetify'
+// import axios from "./axios";
 
 import router from "./router";
 
@@ -32,6 +33,7 @@ Vue.component('app', require('./App.vue').default);
 
 const app = new Vue({
     router,
+    // axios,
     vuetify,
     el: '#app'
 });
