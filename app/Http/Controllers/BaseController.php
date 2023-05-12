@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\Testimonials\Company\Service;
-use Illuminate\Http\Request;
+
+use App\Services\Testimonials\Service;
 
 class BaseController extends Controller
 {
-    public $service;
+    protected $testimonial;
 
-
-    public function __construct(Service $service)
+    public function __construct(Service $testimonial)
     {
-        $this->service = $service;
+        $this->testimonial = $testimonial;
     }
 }
