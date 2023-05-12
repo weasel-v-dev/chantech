@@ -21,12 +21,7 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['verified', 'auth']], function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-    Route::post('/position', [App\Http\Controllers\PositionController::class, 'create']);
-    Route::post('/company', [App\Http\Controllers\CompanyController::class, 'create']);
-    Route::post('/reviewer', [App\Http\Controllers\ReviewerController::class, 'create']);
-    Route::post('/employee', [App\Http\Controllers\EmployeeController::class, 'create']);
-    Route::post('/review', [App\Http\Controllers\ReviewController::class, 'create']);
+    Route::post('/distribution', [App\Http\Controllers\HomeController::class, 'distribution']);
 });
 
 Route::get('/{any?}', function () {
