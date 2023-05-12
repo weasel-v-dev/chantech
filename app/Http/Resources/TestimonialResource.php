@@ -15,6 +15,7 @@ class TestimonialResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->getEmployee->name,
             'company' => $this->getEmployee->getCompany->name,
             'position' => $this->getEmployee->getPosition->name,

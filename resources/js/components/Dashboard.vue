@@ -2,13 +2,20 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Admin dashboard</div>
+                <v-card
+                    class="mx-auto"
+                >
+                    <v-img
+                        class="white--text align-end"
+                        height="200px"
+                        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                    >
+                    </v-img>
 
-                    <div class="card-body">
+                    <v-card-text class="text--primary">
                         <ReviewsImport />
-                    </div>
-                </div>
+                    </v-card-text>
+                </v-card>
             </div>
         </div>
     </div>
