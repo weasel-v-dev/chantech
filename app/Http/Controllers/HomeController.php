@@ -36,22 +36,38 @@ class HomeController extends Controller
 
     public function distribution(TestimonialRequest $request) {
 
-        collect($request->data)->map(function($el)  {
-            Company::create([
-                'name' => !empty($el['company']) ? $el['company'] : '',
-                'description' => !empty($el['company_description']) ? $el['company_description'] : ''
-            ]);
+        $companyTerminateName = '';
+        foreach (collect($request->data)->sortBy('company') as $el){
+            var_dump($companyTerminateName);
+            if(!empty($el['company']) && $companyTerminateName != $el['company']) {
+                Company::create([
+                    'name' => $el['company'],
+                    'description' => !empty($el['company_description']) ? $el['company_description'] : ''
+                ]);
+                $companyTerminateName = $el['company'];
+            }
+        };
 
-            Position::create([
-                'name' => !empty($el['employees_position']) ? $el['employees_position'] : '',
-                'token' => !empty($el['unique_employee_number']) ? $el['unique_employee_number'] : ''
-            ]);
+        $positionTerminateName = '';
+        foreach (collect($request->data)->sortBy('employees_position') as $el){
+            if(!empty($el['employees_position']) && $positionTerminateName != $el['employees_position']) {
+                Position::create([
+                    'name' => $el['employees_position'],
+                ]);
+                $positionTerminateName = $el['employees_position'];
+            }
+        };
 
-            Reviewer::create([
-                'name' => !empty($el['reviewer']) ? $el['reviewer'] : '',
-                'email' => !empty($el['email']) ? $el['email'] : ''
-            ]);
-        });
+        $reviewerTerminateName = '';
+        foreach (collect($request->data)->sortBy('email') as $el){
+            if(!empty($el['email']) && $reviewerTerminateName != $el['email']) {
+                Reviewer::create([
+                    'name' => !empty($el['reviewer']) ? $el['reviewer'] : '',
+                    'email' => $el['email']
+                ]);
+                $reviewerTerminateName = $el['email'];
+            }
+        };
 
         collect($request->data)->map(function($el) {
             if(!empty($el['company'])) {
@@ -62,16 +78,12 @@ class HomeController extends Controller
             }
 
             if(!empty($company->id) && !empty($position->id) && !empty($el['employee'])) {
-                try {
-                    (Employee::create([
-                        'name' => $el['employee'],
-                        'company_id' => $company->id,
-                        'position_id' => $position->id,
-                    ]));
-                }
-                catch (\Exception $e) {
-                    dd($company, $position, $e);
-                }
+                Employee::create([
+                    'name' => $el['employee'],
+                    'token' => !empty($el['unique_employee_number']) ? $el['unique_employee_number'] : '',
+                    'company_id' => $company->id,
+                    'position_id' => $position->id,
+                ]);
             }
         });
 
@@ -79,10 +91,10 @@ class HomeController extends Controller
             $reviewer = Reviewer::where('name', !empty($el['reviewer']) ? $el['reviewer'] : '')->first();
             $employee = Employee::where('name', !empty($el['employee']) ? $el['employee'] : '')->first();
 
-            if(!empty($reviewer->id) && !empty($employee->id) && !empty($el['review']) && !empty($el['rating'])) {
+            if(!empty($reviewer->id) && !empty($employee->id)) {
                 Review::create([
-                    'description' => $el['review'],
-                    'rating' => $el['rating'],
+                    'description' => !empty($el['review']) ? $el['review'] : '',
+                    'rating' => !empty($el['rating']) ? $el['rating'] : 0.0,
                     'reviewer_id' => $reviewer->id,
                     'employee_id' => $employee->id,
                 ]);
