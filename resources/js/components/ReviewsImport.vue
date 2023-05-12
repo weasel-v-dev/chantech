@@ -5,46 +5,73 @@
             label="File input"
             v-model="file"
         ></v-file-input>
-        <v-alert v-if="errors.length"
-                 v-for="error in errors"
-                 color="error"
-                 icon="$error"
-                 :title="error"
-        ></v-alert>
-        <br>
+        <v-progress-linear
+            v-if="importing"
+            indeterminate
+            color="cyan"
+            purple
+            rounded
+        ></v-progress-linear>
         <v-btn
+            v-else
             elevation="2"
             dark
             x-large
-            color="purple"
+            color="cyan"
             block
-            @click="send"
+            @click.once="send"
+            :disabled="readyArr.length === 0"
         >
             IMPORT
         </v-btn>
+        <v-snackbar
+            :timeout="-1"
+            v-for="error in errors"
+            :value="errors.length"
+            fixed
+            bottom
+
+            color="red accent-2"
+            outlined
+            right
+        >
+            {{ error}}
+        </v-snackbar>
+        <v-snackbar
+            :timeout="-1"
+            :value="success.length"
+            fixed
+            bottom
+            right
+            tile
+            color="success"
+            v-for="item in success"
+        >
+            {{ item}}
+        </v-snackbar>
     </div>
 </template>
-
 <script>
 export default {
     data() {
         return {
             file: [],
             errors: [],
-            readyArr: []
+            success: [],
+            readyArr: [],
+            importing: false,
         }
     },
     watch: {
         file() {
-            let promise = new Promise((resolve, reject) => {
-                var reader = new FileReader();
-                var vm = this;
+            const promise = new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                const vm = this;
                 reader.onload = e => {
                     resolve((vm.fileinput = reader.result));
                 };
                 reader.readAsText(this.file);
             });
-
             promise.then(
                 result => {
                     const lines = result.split('\n')
@@ -59,11 +86,7 @@ export default {
                         json.employee = json.employee ?? '';
                         return json;
                     });
-
-                    console.log(output[output.length - 1]);
-
                     this.errors = this.validColumn(output[0]);
-
                     if(!this.errors.length) {
                         this.readyArr = output;
                     }
@@ -80,9 +103,7 @@ export default {
         },
         validColumn(fistRow) {
             let res = [];
-
             const importantFields = ['reviewer', 'email', 'review', 'rating', 'employee', 'employees_position', 'unique_employee_number', 'company', 'company_description'];
-
             for(const nameColumn in fistRow ){
                 let findField = '';
                 importantFields.forEach((importantField) => {
@@ -92,26 +113,31 @@ export default {
                     }
                 })
                 if(findField === '') {
-                    res.push(nameColumn + ' is wrong field');
+                    res.push(nameColumn + ' is the wrong field');
                 }
             }
             return res;
         },
         send() {
+            this.importing = true;
+            this.file = [];
             axios.post('distribution', {
                 data: this.readyArr
             }, {
                 'Content-Type': 'application/json'
             }).then((res) => {
                 console.log(res.data)
+                this.importing = false;
+                this.success = res.data.message
             }).catch((res) => {
                 console.log(res)
+                this.importing = false;
+                this.errors = res.data;
             })
         }
     }
 }
 </script>
-
 <style scoped>
 
 </style>
