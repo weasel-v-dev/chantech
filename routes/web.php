@@ -30,10 +30,3 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/distribution', [App\Http\Controllers\HomeController::class, 'distribution']);
 });
-
-//Route::get('/{any?}', function () {
-//    return view('dashboard');
-//})->where('any', '.*');
-//Route::get('/', function () {
-//    return view('welcome');
-//})->where('any', '.*');

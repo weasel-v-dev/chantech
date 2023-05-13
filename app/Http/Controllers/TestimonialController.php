@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-
-
     public function index(Request $request) {
-//        $collectTestimonialPaginate = ;
         return response()->json([
             'testimonials' => TestimonialResource::collection(Review::paginate($request->total)),
             'count' => Review::count()
