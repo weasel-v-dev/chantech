@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import ReviewsImport from '../components/ReviewsImport'
+    import ReviewsImport from '../UI/ReviewsImport'
 
     export default {
         components: {

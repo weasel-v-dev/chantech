@@ -1,8 +1,99 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Poppins:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+body {
+    font-size: 14px;
+}
+.big {
+    font-size: 22px;
+    @media screen and (min-width: 1200px) {
+        font-size: 30px;
+    }
+}
+.large {
+    font-size: 16px;
+    @media screen and (min-width: 1200px) {
+        font-size: 22px;
+    }
+}
+.middle {
+
+    @media screen and (min-width: 1200px) {
+        font-size: 18px;
+    }
+}
+.small {
+    font-size: 12px;
+}
+.blue {
+    color: #0880AE;
+}
+.active {
+    a {
+        color: #0880AE;
+        border-bottom: 5px solid #0880AE;
+    }
+}
+nav {
+    a {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        display: block;
+    }
+}
+.kh-bg {
+    background: #F5F5F5;
+}
+.white-color {
+    color: white;
+}
+.img {
+    object-fit: cover;
+}
+ul {
+    list-style-type: none;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    &:hover, &:active, &:visited {
+        color: inherit
+    }
+}
+.gray-bg {
+    background: #434343;
+}
+footer {
+    color: white;
+    li {
+        margin-bottom: 10px;
+    }
+}
+
+.news {
+    display: block!important;
+    background-size: cover;
+    background-color: transparent;
+    transition: all .3s ease-in-out;
+    &:hover {
+        background-color: rgba(8, 128, 174, 0.8);
+    }
+}
+.testimonial {
+    border: 2px solid #C1C7D0;
+    position: relative;
+    background-color: #fff;
+    z-index: 1;
+    &::before {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        z-index: -1;
+    }
+}
