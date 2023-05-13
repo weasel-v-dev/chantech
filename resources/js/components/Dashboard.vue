@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <v-app class="lighten-5">
-                    <v-content >
+                    <v-main >
                         <v-card
                             class="mx-auto"
                         >
@@ -18,7 +18,7 @@
                                 <ReviewsImport />
                             </v-card-text>
                         </v-card>
-                    </v-content>
+                    </v-main>
                 </v-app>
             </div>
         </div>

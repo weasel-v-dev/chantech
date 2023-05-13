@@ -25,7 +25,7 @@
             IMPORT
         </v-btn>
         <v-snackbar
-            :timeout="-1"
+            :timeout="3000"
             v-for="error in errors"
             :value="errors.length"
             fixed
@@ -38,7 +38,7 @@
             {{ error}}
         </v-snackbar>
         <v-snackbar
-            :timeout="-1"
+            :timeout="3000"
             :value="success.length"
             fixed
             bottom
@@ -87,12 +87,15 @@ export default {
                         return json;
                     });
                     this.errors = this.validColumn(output[0]);
-                    if(!this.errors.length) {
+                    if(this.errors.length) {
+                        this.readyArr = [];
+                    }else {
                         this.readyArr = output;
                     }
                 },
                 error => {
-                    console.log(error);
+                    // console.log(error);
+                    this.readyArr = [];
                 }
             );
         }
@@ -119,20 +122,24 @@ export default {
             return res;
         },
         send() {
+            console.log('readyArr', this.readyArr)
             this.importing = true;
-            this.file = [];
+
             axios.post('distribution', {
                 data: this.readyArr
             }, {
                 'Content-Type': 'application/json'
             }).then((res) => {
-                console.log(res.data)
+                console.log(res.data);
+                this.file = [];
+                this.readyArr = [];
                 this.importing = false;
                 this.success = res.data.message
             }).catch((res) => {
                 console.log(res)
+                this.file = [];
+                this.readyArr = [];
                 this.importing = false;
-                this.errors = res.data;
             })
         }
     }
