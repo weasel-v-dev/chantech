@@ -126,24 +126,24 @@
                 </div>
             </section>
         </main>
-        <footer class="footer gray-bg pt-3 pb-3 pt-lg-5 pb-lg-5">
+        <footer class="footer gray-bg pt-3 pb-3 pt-lg-5 mt-3 pb-lg-5 mt-lg-5">
             <div class="container-md">
                 <div class="row">
                     <div class="col-6 col-lg-3">
                         <h4 class="large mb-3 mb-xl-4">Departments</h4>
                         <ul>
-                            <li class="middle"><a href="#">Medical</a></li>
-                            <li class="middle"><a href="#">Pharmaceuticals</a></li>
-                            <li class="middle"><a href="#">Medical Equipment</a></li>
+                            <li class=""><a href="#">Medical</a></li>
+                            <li class=""><a href="#">Pharmaceuticals</a></li>
+                            <li class=""><a href="#">Medical Equipment</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-lg-3">
                         <h4 class="large mb-3 mb-xl-4">Quick Links</h4>
                         <ul>
-                            <li class="middle"><a href="#">What do we do?</a></li>
-                            <li class="middle"><a href="#">Our expertise</a></li>
-                            <li class="middle"><a href="#">Request an Appointment</a></li>
-                            <li class="middle"><a href="#">Book with a Specialist</a></li>
+                            <li class=""><a href="#">What do we do?</a></li>
+                            <li class=""><a href="#">Our expertise</a></li>
+                            <li class=""><a href="#">Request an Appointment</a></li>
+                            <li class=""><a href="#">Book with a Specialist</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-lg-3 ">
@@ -156,12 +156,12 @@
                     </div>
                     <div class="col-6 col-lg-3">
                         <img src="{{ asset('img/icons/logo.svg') }}" class="img-fluid" alt="logo">
-                        <p class="middle mt-3 mt-xl-4">
+                        <p class=" mt-3 mt-xl-4">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras blandit tincidunt ut sed. Velit euismod integer convallis ornare eu.
                         </p>
                     </div>
                     <div class="col-6 col-lg-3">
-                        <p class="middle mb-0">
+                        <p class=" mb-0">
                             &copy;<?= date("Y") ?> All Rights Reserved
                         </p>
                     </div>

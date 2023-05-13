@@ -1,0 +1,36 @@
+.testimonial {
+    $borderSize: 1px;
+    border: $borderSize solid #C1C7D0;
+    position: relative;
+    background-color: #fff;
+    //max-height: 292px;
+    z-index: 1;
+    .triangle {
+        position: absolute;
+
+        top: 100%;
+        left: -$borderSize;
+        z-index: 1;
+
+        background-color: #C1C7D0;
+        width: 20px;
+        height: 20px;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+
+        &::before {
+            position: absolute;
+            display: block;
+            content: '';
+            z-index: 1;
+            left: $borderSize;
+            width: 18px;
+            height: 18px;
+            top: 0;
+            bottom: $borderSize;
+            right: $borderSize;
+            background-color: #fff;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+    }
+
+}

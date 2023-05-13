@@ -1,0 +1,30 @@
+.khantech {
+    &-row {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+    &-col {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        flex-basis: 100%;
+        max-width: 100%;
+
+        @media screen and (min-width: 767px) {
+            flex-basis: 50%;
+            max-width: 50%;
+        }
+        @media screen and (min-width: 991px) {
+            flex-basis: 33.33%;
+            max-width: 33.33%;
+        }
+        @media screen and (min-width: 1200px) {
+            flex-basis: 25%;
+            max-width: 25%;
+        }
+
+        @media screen and (min-width: 1400px) {
+            flex-basis: 20%;
+            max-width: 20%;
+        }
+    }
+}

@@ -1,33 +1,43 @@
 <template>
-    <div class="d-flex flex-wrap">
-        <div
-            v-for="item in testimonials"
-            class="mb-3  p-3"
-            :key="item.id">
-            <div class="testimonial p-3">
-                <h3 class="middle">{{item.name}}</h3>
-                <p class="small">{{item.company}} - {{item.position}}</p>
-                <p class="mb-0 middle">
-                    {{item.desc}}
-                </p>
-            </div>
-            <div class="d-flex">
-                <div class="me-3">
-                    <img src="/img/icons/avatar.svg" class="" alt="">
+    <div>
+        <div class="d-flex flex-wrap khantech-row">
+            <div
+                v-if="testimonials.length"
+                v-for="item in testimonials"
+                class="mb-3  p-3 khantech-col"
+                :key="item.id">
+                <div class="testimonial p-3 mb-3">
+                    <h3 class="middle">{{item.name}}</h3>
+                    <p class="small">{{item.company}} - {{item.position}}</p>
+                    <p class="mb-0 middle">
+                        {{item.desc}}
+                    </p>
+                    <div class="triangle"></div>
                 </div>
-                <div>
-                    <p class="middle">{{ item.reviewerName }}</p>
-                    <v-rating
-                        v-model="item.rating"
-                        color="yellow darken-3"
-                        background-color="grey darken-1"
-                        empty-icon="$ratingFull"
-                        half-increments
-                        hover
-                        large
-                    ></v-rating>
+                <div class="d-flex">
+                    <div class="me-3">
+                        <img src="/img/icons/avatar.svg" class="" alt="">
+                    </div>
+                    <div>
+                        <div class="middle">{{ item.reviewerName }}</div>
+                        <v-rating
+                            v-model="item.rating"
+                            color="gold"
+                            dense
+                            background-color="gold"
+                            half-increments
+                            readonly
+                        ></v-rating>
+                    </div>
                 </div>
             </div>
+            <v-progress-linear
+
+                indeterminate
+                color="cyan"
+                purple
+                rounded
+            ></v-progress-linear>
         </div>
         <v-pagination
             v-model="page"
@@ -80,6 +90,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    @import "../../sass/elements/grid";
+    @import "../../sass/sections/testimonial";
 </style>
