@@ -1,54 +1,59 @@
 <template>
-    <div class="d-flex align-items-center flex-column">
-        <div class="d-flex flex-wrap khantech-row">
-            <div
-                v-if="testimonials.length"
-                v-for="item in testimonials"
-                class="mb-3  p-3 khantech-col"
-                :key="item.id">
-                <div class="testimonial p-3 mb-3">
-                    <h3 class="middle">{{item.name}}</h3>
-                    <p class="small">{{item.company}} - {{item.position}}</p>
-                    <p class="mb-0 middle">
-                        {{item.desc}}
-                    </p>
-                    <div class="triangle"></div>
-                </div>
-                <div class="d-flex">
-                    <div class="me-3">
-                        <img src="/img/icons/avatar.svg" class="" alt="">
+    <v-app class="kh-bg">
+        <div class="d-flex align-items-center flex-column">
+            <div class="d-flex flex-wrap khantech-row" v-if="testimonials.length">
+                <div
+                    v-for="item in testimonials"
+                    class="mb-3  p-3 khantech-col"
+                    :key="item.id">
+                    <div class="testimonial p-3 mb-5">
+                        <h3 class="middle">{{item.name}}</h3>
+                        <p class="small">{{item.company}} - {{item.position}}</p>
+                        <p class="mb-0 middle">
+                            {{item.desc}}
+                        </p>
+                        <div class="triangle"></div>
                     </div>
-                    <div>
-                        <div class="middle">{{ item.reviewerName }}</div>
-                        <v-rating
-                            v-model="item.rating"
-                            color="gold"
-                            dense
-                            background-color="gold"
-                            half-increments
-                            readonly
-                        ></v-rating>
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <img src="/img/icons/avatar.svg" class="" alt="">
+                        </div>
+                        <div>
+                            <div class="middle">{{ item.reviewerName }}</div>
+                            <v-rating
+                                v-model="item.rating"
+                                color="orange"
+                                dense
+                                background-color="orange"
+                                half-increments
+                                readonly
+                            ></v-rating>
+                        </div>
                     </div>
                 </div>
             </div>
             <v-progress-linear
-
+                v-else
                 indeterminate
                 color="cyan"
                 purple
                 rounded
+                class="mb-3"
             ></v-progress-linear>
+            <v-pagination
+                v-model="page"
+                :length="calcPaginationElements"
+                :total-visible="7"
+                @next="getTestimonials"
+                @previous="getTestimonials"
+                @input="getTestimonials"
+                circle
+                background--primary
+                background--blue
+                class=" background--primary background--blue"
+            ></v-pagination>
         </div>
-        <v-pagination
-            v-model="page"
-            :length="15"
-            :total-visible="7"
-            @next="getTestimonials"
-            @previous="getTestimonials"
-            @input="getTestimonials"
-            circle
-        ></v-pagination>
-    </div>
+    </v-app>
 </template>
 
 <script>
@@ -63,15 +68,15 @@ export default {
             testimonials: [],
             a: false,
             page: 1,
-            total: 0
+            count: 0
         }
     },
     mounted() {
         this.getTestimonials();
     },
     computed: {
-        calcTotal() {
-            return Math.floor(this.total / 15);
+        calcPaginationElements() {
+            return Math.floor(this.count / 15) + 1;
         }
     },
     methods: {
@@ -81,9 +86,9 @@ export default {
         getTestimonials() {
             const self = this;
             console.log('click', self.page);
-            axios.get('/testimonial', {params: {page : self.page, total : self.total }}).then((res) => {
+            axios.get('/testimonial', {params: {page : self.page, total : 15 }}).then((res) => {
                 this.testimonials = res.data.testimonials;
-                this.total = res.data.count;
+                this.count = res.data.count;
             });
         }
     }
@@ -93,4 +98,24 @@ export default {
 <style scoped lang="scss">
     @import "../../sass/elements/grid";
     @import "../../sass/sections/testimonial";
+
+    ::v-deep {
+        .v-application--wrap {
+            min-height: fit-content;
+        }
+        .v-pagination {
+            &__item, &__navigation {
+                border: 1px solid #0880AE;
+                height: 40px;
+                width: 40px;
+                color: #727272;
+                font-size: 14px;
+            }
+        }
+    }
+    .theme--light.v-application {
+        background-color: transparent;
+    }
+
+
 </style>

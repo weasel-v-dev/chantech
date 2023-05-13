@@ -27,7 +27,7 @@
                     <a class="navbar-brand" href="/"><img src="{{  asset('img/icons/logo-main.svg') }}" class="" alt="logo"></a>
                     <div class="me-auto ms-3">
                         <div class="small">Need Help?</div>
-                        <div class="large">(514) 543-9936</div>
+                        <div class="large"><a href="tel:5145439936">(514) 543-9936</a></div>
                     </div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -35,38 +35,35 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="ms-auto navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link fw-semibold black" href="#">Services</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Services</a>
+                                <a class="nav-link fw-semibold black" href="#">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
+                                <a class="nav-link fw-semibold black" href="#">Book now</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Book now</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Shop</a>
+                                <a class="nav-link fw-semibold black" href="#">Shop</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Blog</a>
+                                <a class="nav-link fw-semibold black" href="#">Blog</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
+                            <li class="nav-item me-3">
+                                <a class="nav-link fw-semibold black" href="#">Contact</a>
                             </li>
                             @if (Route::has('login'))
                                 @auth
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+                                        <a class="nav-link fw-semibold black" href="{{ url('/dashboard') }}">Home</a>
                                     </li>
                                 @else
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('/login') }}">Log in</a>
+                                        <a class="nav-link fw-semibold black" href="{{ url('/login') }}">Log in</a>
                                     </li>
                                     @if (Route::has('register'))
                                         <li class="nav-item">
-                                            <a href="{{ route('register') }}" class="nav-link">Register</a>
+                                            <a href="{{ route('register') }}" class="nav-link black fw-semibold">Register</a>
                                         </li>
                                     @endif
                                 @endauth
@@ -154,9 +151,9 @@
                     <div class="col-6 col-lg-3 ">
                         <h4 class="large mb-3 mb-xl-4">Head Office</h4>
                         <ul class="ps-3">
-                            <li class="middle"><a target="_blank" href="https://goo.gl/maps/yVj7dQDZv7JLRvoN9"><span class="mdi mdi-marker"></span> 4517 Washington Ave. Manchester, Kentucky 39495</a></li>
-                            <li class="middle"><a href="mailto:darrell@mail.com"><span class="mdi mdi-email"></span> darrell@mail.com</a></li>
-                            <li class="middle"><a href="tel:+6715550110"><span class="mdi mdi-phone"></span> (671) 555-0110</a></li>
+                            <li class=""><a target="_blank" href="https://goo.gl/maps/yVj7dQDZv7JLRvoN9"><span class="mdi mdi-marker"></span> 4517 Washington Ave. Manchester, Kentucky 39495</a></li>
+                            <li class=""><a href="mailto:darrell@mail.com"><span class="mdi mdi-email"></span> darrell@mail.com</a></li>
+                            <li class=""><a href="tel:+6715550110"><span class="mdi mdi-phone"></span> (671) 555-0110</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-lg-3">

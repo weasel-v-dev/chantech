@@ -26,6 +26,9 @@ body {
 .blue {
     color: #0880AE;
 }
+.black{
+    color: #000;
+}
 .active {
     a {
         color: #0880AE;
@@ -34,8 +37,6 @@ body {
 }
 nav {
     a {
-        padding-top: 30px;
-        padding-bottom: 30px;
         display: block;
     }
 }
@@ -53,10 +54,10 @@ ul {
 }
 a {
     text-decoration: none;
-    //color: inherit;
-    //&:hover, &:active, &:visited {
-    //    color: inherit
-    //}
+    color: inherit;
+    &:hover, &:active, &:visited {
+        color: inherit
+    }
 }
 .gray-bg {
     background: #434343;
@@ -65,8 +66,16 @@ footer {
     color: white;
     a  {
         color: white;
+        &:hover {
+            color: inherit;
+        }
     }
     li {
         margin-bottom: 10px;
     }
+}
+.admin {
+    min-height: calc(100vh - 127px);
+    display: flex;
+    justify-items: center;
 }
