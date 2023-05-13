@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex align-items-center flex-column">
         <div class="d-flex flex-wrap khantech-row">
             <div
                 v-if="testimonials.length"

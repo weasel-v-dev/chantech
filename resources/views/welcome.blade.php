@@ -55,20 +55,23 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Contact</a>
                             </li>
-                        </ul>
-                        @if (Route::has('login'))
-                            <div class="hidden fixed top-0 right-0 sm:block">
+                            @if (Route::has('login'))
                                 @auth
-                                    <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+                                    </li>
                                 @else
-                                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ url('/login') }}">Log in</a>
+                                    </li>
                                     @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                                        <li class="nav-item">
+                                            <a href="{{ route('register') }}" class="nav-link">Register</a>
+                                        </li>
                                     @endif
                                 @endauth
-                            </div>
-                        @endif
+                            @endif
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -117,16 +120,18 @@
                     </div>
                 </div>
             </section>
-            <section class="container-md kh-bg pt-3 mt-3 mt-lg-5 pt-lg-5">
-                <h2 class="text-center">Testimonials</h2>
-                <div class="d-flex mt-3 flex-wrap">
-                    <div id="app">
-                        <testimonial></testimonial>
+            <section class=" kh-bg py-3 mt-3 mt-lg-5 py-lg-5">
+                <div class="container-md">
+                    <h2 class="text-center">Testimonials</h2>
+                    <div class="d-flex mt-3 flex-wrap">
+                        <div id="app" class="w-100">
+                            <testimonial></testimonial>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
-        <footer class="footer gray-bg pt-3 pb-3 pt-lg-5 mt-3 pb-lg-5 mt-lg-5">
+        <footer class="footer gray-bg pt-3 pb-3 pt-lg-5 pb-lg-5">
             <div class="container-md">
                 <div class="row">
                     <div class="col-6 col-lg-3">
