@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TestimonialRequest;
-use App\Services\Testimonials\Service;
+use App\Services\Testimonials\AggregatorService;
 
 class HomeController extends BaseController
 {
@@ -13,9 +13,9 @@ class HomeController extends BaseController
      *
      * @return void
      */
-    public function __construct(Service $service)
+    public function __construct(AggregatorService $testimonial)
     {
-        parent::__construct($service);
+        parent::__construct($testimonial);
         $this->middleware('auth');
     }
 

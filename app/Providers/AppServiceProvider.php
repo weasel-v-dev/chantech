@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\Testimonials\Service;
+use App\Services\Testimonials\AggregatorService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,9 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-        $this->app->bind(Service::class, function () {
-            return new Service();
+        $this->app->bind(AggregatorService::class, function () {
+            return new AggregatorService();
         });
     }
 

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Services\Testimonials\Service;
+use App\Services\Testimonials\AggregatorService;
 
 class BaseController extends Controller
 {
     protected $testimonial;
 
-    public function __construct(Service $testimonial)
+    public function __construct(AggregatorService $testimonial)
     {
         $this->testimonial = $testimonial;
     }

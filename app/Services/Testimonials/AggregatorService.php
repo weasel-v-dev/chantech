@@ -3,7 +3,7 @@
 
 namespace App\Services\Testimonials;
 
-class Service
+class AggregatorService
 {
     public function saveTestimonials($data): array
     {
