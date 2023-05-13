@@ -33,7 +33,7 @@
                 </div>
             </div>
             <v-progress-linear
-                v-else
+                v-if="result"
                 indeterminate
                 color="cyan"
                 purple
@@ -41,6 +41,7 @@
                 class="mb-3"
             ></v-progress-linear>
             <v-pagination
+                v-if="testimonials.length"
                 v-model="page"
                 :length="calcPaginationElements"
                 :total-visible="7"
@@ -66,7 +67,7 @@ export default {
     data() {
         return {
             testimonials: [],
-            a: false,
+            result: true,
             page: 1,
             count: 0
         }
@@ -84,11 +85,13 @@ export default {
             this.getTestimonials()
         },
         getTestimonials() {
+            this.result = true;
             const self = this;
             console.log('click', self.page);
             axios.get('/testimonial', {params: {page : self.page, total : 15 }}).then((res) => {
                 this.testimonials = res.data.testimonials;
                 this.count = res.data.count;
+                this.result = false;
             });
         }
     }
