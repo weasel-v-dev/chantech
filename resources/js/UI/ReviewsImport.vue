@@ -28,14 +28,14 @@
             :timeout="3000"
             v-for="error in errors"
             :value="errors.length"
+            :key="error.id"
             fixed
             bottom
-
             color="red accent-2"
             outlined
             right
         >
-            {{ error}}
+            {{ error.message}}
         </v-snackbar>
         <v-snackbar
             :timeout="3000"
@@ -46,8 +46,9 @@
             tile
             color="success"
             v-for="item in success"
+            :key="item.id"
         >
-            {{ item}}
+            {{ item.message }}
         </v-snackbar>
     </div>
 </template>
@@ -107,7 +108,7 @@ export default {
         validColumn(fistRow) {
             let res = [];
             const importantFields = ['reviewer', 'email', 'review', 'rating', 'employee', 'employees_position', 'unique_employee_number', 'company', 'company_description'];
-            for(const nameColumn in fistRow ){
+            for(const nameColumn in key => fistRow){
                 let findField = '';
                 importantFields.forEach((importantField) => {
                     if(importantField === nameColumn) {
@@ -116,7 +117,10 @@ export default {
                     }
                 })
                 if(findField === '') {
-                    res.push(nameColumn + ' is the wrong field');
+                    res.push({
+                        id: key,
+                        message: nameColumn + ' is the wrong field'
+                    });
                 }
             }
             return res;

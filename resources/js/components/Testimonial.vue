@@ -4,8 +4,9 @@
             <div class="d-flex flex-wrap khantech-row" v-if="testimonials.length">
                 <div
                     v-for="item in testimonials"
-                    class="mb-3  p-3 khantech-col"
-                    :key="item.id">
+                    class="mb-3 p-3 khantech-col"
+                    :key="item.id"
+                >
                     <div class="testimonial p-3 mb-5">
                         <h3 class="middle">{{item.name}}</h3>
                         <p class="small">{{item.company}} - {{item.position}}</p>

@@ -20,6 +20,9 @@ class AggregatorService
             $service->createMassive();
         }
 
-        return ['Testimonials saved'];
+        return [
+            'id' => 1,
+            'message' => 'Testimonials saved'
+        ];
     }
 }

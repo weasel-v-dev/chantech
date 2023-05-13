@@ -18,6 +18,7 @@ class CompanyService
 
     public function createMassive() {
         $companyTerminateName = '';
+
         foreach (collect($this->data)->sortBy('company') as $i => $el){
             if(!empty($el['company']) && $companyTerminateName != $el['company']) {
                 try {
@@ -31,7 +32,7 @@ class CompanyService
                 $companyTerminateName = $el['company'];
             }
             if($i  % 50  == 0) {
-                set_time_limit(30);
+                set_time_limit(1);
             }
         };
     }

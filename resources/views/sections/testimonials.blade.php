@@ -2,9 +2,11 @@
     <div class="container-md">
         <h2 class="text-center">Testimonials</h2>
         <div class="d-flex mt-3 flex-wrap">
-            <div id="app" class="w-100">
-                <testimonial></testimonial>
-            </div>
+{{--            <noindex>--}}
+                <div id="app" class="w-100">
+                    <testimonial></testimonial>
+                </div>
+{{--            </noindex>--}}
         </div>
     </div>
 </section>
