@@ -34,13 +34,14 @@
                 </div>
             </div>
             <v-progress-linear
-                v-if="showProgress "
+                v-if="showProgress"
                 indeterminate
                 color="cyan"
                 purple
                 rounded
                 class="mb-3"
             ></v-progress-linear>
+            <div v-if="!showProgress && !testimonials.length">No reviews</div>
             <v-pagination
                 v-if="testimonials.length"
                 v-model="page"
