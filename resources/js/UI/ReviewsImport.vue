@@ -4,48 +4,47 @@
             accept="csv/*"
             label="File input"
             v-model="file"
+            v-if="!working"
         ></v-file-input>
         <v-progress-linear
-            v-if="importing"
+            v-if="working"
             indeterminate
             color="cyan"
             purple
             rounded
         ></v-progress-linear>
         <v-btn
-            v-else
             elevation="2"
             dark
             x-large
-            color="cyan"
+            color="cyan text-uppercase"
             block
-            @click.once="send"
-            :disabled="readyArr.length === 0"
+            @click="send"
+            v-if="!working && readyArr.length !== 0"
         >
-            IMPORT
+            import
+        </v-btn>
+        <br v-if="!working">
+        <v-btn
+            elevation="2"
+            dark
+            x-large
+            color="red text-uppercase"
+            block
+            v-if="!working && isDataExistInDB"
+            @click="clean"
+        >
+            clean
         </v-btn>
         <v-snackbar
             :timeout="3000"
-            v-for="error in errors"
-            :value="errors.length"
-            :key="error.id"
-            fixed
-            bottom
-            color="red accent-2"
-            outlined
-            right
-        >
-            {{ error.message}}
-        </v-snackbar>
-        <v-snackbar
-            :timeout="3000"
-            :value="success.length"
             fixed
             bottom
             right
             tile
-            color="success"
-            v-for="item in success"
+            v-for="item in response"
+            :value="item.message"
+            :color="item.status  ?? 'red accent-2'"
             :key="item.id"
         >
             {{ item.message }}
@@ -57,11 +56,14 @@ export default {
     data() {
         return {
             file: [],
-            errors: [],
-            success: [],
+            response: [],
             readyArr: [],
-            importing: false,
+            working: false,
+            isDataExistInDB: false
         }
+    },
+    mounted() {
+        this.check()
     },
     watch: {
         file() {
@@ -87,15 +89,15 @@ export default {
                         json.employee = json.employee ?? '';
                         return json;
                     });
-                    this.errors = this.validColumn(output[0]);
-                    if(this.errors.length) {
+                    this.response = this.validColumn(output[0]);
+
+                    if(this.response.length) {
                         this.readyArr = [];
                     }else {
                         this.readyArr = output;
                     }
                 },
                 error => {
-                    // console.log(error);
                     this.readyArr = [];
                 }
             );
@@ -108,7 +110,8 @@ export default {
         validColumn(fistRow) {
             let res = [];
             const importantFields = ['reviewer', 'email', 'review', 'rating', 'employee', 'employees_position', 'unique_employee_number', 'company', 'company_description'];
-            for(const nameColumn in key => fistRow){
+            let i = 0;
+            for(const nameColumn in fistRow){
                 let findField = '';
                 importantFields.forEach((importantField) => {
                     if(importantField === nameColumn) {
@@ -118,32 +121,75 @@ export default {
                 })
                 if(findField === '') {
                     res.push({
-                        id: key,
-                        message: nameColumn + ' is the wrong field'
+                        id: i,
+                        message: nameColumn + ' is the wrong field',
+                        status: 'error'
                     });
                 }
             }
+            console.log()
             return res;
         },
         send() {
-            console.log('readyArr', this.readyArr)
-            this.importing = true;
+            this.working = true;
 
-            axios.post('distribution', {
+            axios.post('/distribution', {
                 data: this.readyArr
             }, {
                 'Content-Type': 'application/json'
             }).then((res) => {
-                console.log(res.data);
                 this.file = [];
                 this.readyArr = [];
-                this.importing = false;
-                this.success = res.data.message
+                this.working = false;
+
+                this.response = res.data.status;
+                this.check();
+            }).catch((error) => {
+                this.file = [];
+                this.readyArr = [];
+                this.working = false;
+                let i = 1;
+                Object.values(error.response.data.errors).forEach((messages) => {
+                    messages.forEach(message => {
+                        this.response.push({
+                            id: i++,
+                            message: message,
+                            status: 'error'
+                        })
+                    })
+                })
+                this.check();
+            })
+        },
+        clean() {
+            this.working = true;
+
+            axios.post('/testimonial/clean', {
+                data: this.readyArr
+            }, {
+                'Content-Type': 'application/json'
+            }).then((res) => {
+                this.file = [];
+                this.readyArr = [];
+                this.working = false;
+                this.response = res.data.status
+                this.check();
             }).catch((res) => {
-                console.log(res)
                 this.file = [];
                 this.readyArr = [];
-                this.importing = false;
+                this.working = false;
+                this.check();
+            })
+        },
+        check() {
+            this.working = true;
+            axios.get('/testimonial/check',{
+                'Content-Type': 'application/json'
+            }).then((res) => {
+                this.working = false;
+                this.isDataExistInDB = res.data.status
+            }).catch((res) => {
+                this.working = false;
             })
         }
     }

@@ -29,5 +29,5 @@ Vue.component('testimonial', require('./components/Testimonial').default);
 
 const app = new Vue({
     vuetify,
-    el: '#app'
+    el: '#vue-app'
 });

@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 
 
-Route::get('/testimonial', [App\Http\Controllers\TestimonialController::class, 'index']);
+Route::get('/testimonial/', [App\Http\Controllers\TestimonialController::class, 'index']);
 
 Auth::routes(['verify' => true]);
 
@@ -29,4 +29,6 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
     });
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/distribution', [App\Http\Controllers\HomeController::class, 'distribution']);
+    Route::post('/testimonial/clean', [App\Http\Controllers\TestimonialController::class, 'clean']);
+    Route::get('/testimonial/check', [App\Http\Controllers\TestimonialController::class, 'check']);
 });

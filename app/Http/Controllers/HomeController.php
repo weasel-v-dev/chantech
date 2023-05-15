@@ -34,7 +34,7 @@ class HomeController extends BaseController
         $result = $this->testimonial->saveTestimonials($request->data);
 
         return response()->json([
-            'message' => $result
+            'status' => $result
         ], 200);
     }
 }

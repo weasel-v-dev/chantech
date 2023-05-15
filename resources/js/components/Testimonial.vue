@@ -34,7 +34,7 @@
                 </div>
             </div>
             <v-progress-linear
-                v-if="result"
+                v-if="showProgress "
                 indeterminate
                 color="cyan"
                 purple
@@ -68,7 +68,7 @@ export default {
     data() {
         return {
             testimonials: [],
-            result: true,
+            showProgress: true,
             page: 1,
             count: 0
         }
@@ -86,13 +86,15 @@ export default {
             this.getTestimonials()
         },
         getTestimonials() {
-            this.result = true;
+            this.showProgress = true;
             const self = this;
             console.log('click', self.page);
             axios.get('/testimonial', {params: {page : self.page, total : 15 }}).then((res) => {
                 this.testimonials = res.data.testimonials;
                 this.count = res.data.count;
-                this.result = false;
+                this.showProgress = false;
+            }).catch((err) => {
+                this.showProgress = false;
             });
         }
     }
