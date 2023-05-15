@@ -23,7 +23,7 @@ npm i
 npm run dev
 ```
 ```
-npm run hot
+npm run prod
 ```
 ```
 php artisan serve
