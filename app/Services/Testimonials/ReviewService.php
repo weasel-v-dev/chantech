@@ -23,10 +23,9 @@ class ReviewService extends BaseService
             $employee = Employee::where('name', !empty($el['employee']) ? $el['employee'] : '')->first();
 
             if(!empty($reviewer->id) && !empty($employee->id)) {
-                Review::create([
+                $reviewer->reviews()->create([
                     'description' => !empty($el['review']) ? $el['review'] : '',
                     'rating' => !empty($el['rating']) ? $el['rating'] : 0.0,
-                    'reviewer_id' => $reviewer->id,
                     'employee_id' => $employee->id,
                 ]);
             }

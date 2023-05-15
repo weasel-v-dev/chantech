@@ -27,10 +27,9 @@ class EmployeeService extends BaseService
             }
 
             if(!empty($company->id) && !empty($position->id) && !empty($el['employee'])) {
-                Employee::create([
+                $company->employees()->create([
                     'name' => $el['employee'],
                     'token' => !empty($el['unique_employee_number']) ? $el['unique_employee_number'] : '',
-                    'company_id' => $company->id,
                     'position_id' => $position->id,
                 ]);
             }
