@@ -19,7 +19,7 @@ class Company extends Model
         'description'
     ];
 
-    public function employee() {
+    public function employees() {
         return $this->hasMany(Employee::class, 'company_id', 'id');
     }
 }

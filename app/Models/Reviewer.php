@@ -19,7 +19,7 @@ class Reviewer extends Model
         'name'
     ];
 
-    public function review() {
+    public function reviews() {
         return $this->hasMany(Review::class, 'reviewer_id', 'id');
     }
 }

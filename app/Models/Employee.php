@@ -29,7 +29,7 @@ class Employee extends Model
         return $this->belongsTo(Position::class, 'position_id', 'id');
     }
 
-    public function review() {
+    public function reviews() {
         return $this->hasMany(Review::class, 'employee_id', 'id');
     }
 }
