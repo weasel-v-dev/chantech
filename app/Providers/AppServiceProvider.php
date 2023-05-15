@@ -2,6 +2,15 @@
 
 namespace App\Providers;
 
+
+use App\Models\Company;
+use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Reviewer;
+use App\Observers\CompanyObserver;
+use App\Observers\EmployeeObserver;
+use App\Observers\PositionObserver;
+use App\Observers\ReviewerObserver;
 use App\Services\Testimonials\AggregatorService;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Company::observe(CompanyObserver::class);
+        Employee::observe(EmployeeObserver::class);
+        Position::observe(PositionObserver::class);
+        Reviewer::observe(ReviewerObserver::class);
     }
 }

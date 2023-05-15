@@ -18,4 +18,8 @@ class Reviewer extends Model
         'email',
         'name'
     ];
+
+    public function review() {
+        return $this->hasMany(Review::class, 'reviewer_id', 'id');
+    }
 }

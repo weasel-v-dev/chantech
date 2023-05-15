@@ -8,11 +8,11 @@ use App\Models\Employee;
 use App\Models\Review;
 use App\Models\Reviewer;
 
-class ReviewService
+class ReviewService extends BaseService
 {
     private $data;
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         $this->data = $data;
     }
@@ -30,9 +30,15 @@ class ReviewService
                     'employee_id' => $employee->id,
                 ]);
             }
-            if($i  % 50  == 0) {
-                set_time_limit(30);
-            }
+            $this->provideConnection($i);
         });
+    }
+
+    public function removeMassive() {
+        $review = Review::all();
+        foreach ($review as $i => $item) {
+            $item->delete();
+            $this->provideConnection($i);
+        }
     }
 }

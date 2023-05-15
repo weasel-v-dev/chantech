@@ -16,11 +16,11 @@ class TestimonialResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->getEmployee->name,
-            'company' => $this->getEmployee->getCompany->name,
-            'position' => $this->getEmployee->getPosition->name,
+            'name' => $this->employee->name,
+            'company' => $this->employee->company->name,
+            'position' => $this->employee->position->name,
             'desc' => $this->description,
-            'reviewerName' => $this->getReviewer->name,
+            'reviewerName' => $this->reviewer->name,
             'rating' => $this->rating
         ];
     }

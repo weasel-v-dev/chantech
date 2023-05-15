@@ -67,6 +67,7 @@ export default {
     },
     watch: {
         file() {
+            this.working = true;
             const promise = new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 const vm = this;
@@ -89,7 +90,10 @@ export default {
                         json.employee = json.employee ?? '';
                         return json;
                     });
+
+
                     this.response = this.validColumn(output[0]);
+                    this.working = false;
 
                     if(this.response.length) {
                         this.readyArr = [];
@@ -97,8 +101,9 @@ export default {
                         this.readyArr = output;
                     }
                 },
-                error => {
+                (error) => {
                     this.readyArr = [];
+                    this.working = false;
                 }
             );
         }
@@ -127,7 +132,6 @@ export default {
                     });
                 }
             }
-            console.log()
             return res;
         },
         send() {

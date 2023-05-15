@@ -7,11 +7,11 @@ namespace App\Services\Testimonials;
 use App\Models\Reviewer;
 use Illuminate\Support\Facades\Log;
 
-class ReviewerService
+class ReviewerService extends BaseService
 {
     private $data;
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         $this->data = $data;
     }
@@ -30,9 +30,16 @@ class ReviewerService
                 }
                 $reviewerTerminateName = $el['email'];
             }
-            if($i  % 50  == 0) {
-                set_time_limit(30);
-            }
+            $this->provideConnection($i);
+
+        }
+    }
+
+    public function removeMassive() {
+        $reviewer = Reviewer::all();
+        foreach ($reviewer as $i => $item) {
+            $item->delete();
+            $this->provideConnection($i);
         }
     }
 }

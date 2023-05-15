@@ -21,11 +21,11 @@ class Review extends Model
         'employee_id'
     ];
 
-    public function getEmployee() {
+    public function employee() {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
     }
 
-    public function getReviewer() {
+    public function reviewer() {
         return $this->belongsTo(Reviewer::class, 'reviewer_id', 'id');
     }
 }

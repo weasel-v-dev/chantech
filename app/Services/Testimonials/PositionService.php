@@ -7,11 +7,11 @@ namespace App\Services\Testimonials;
 use App\Models\Position;
 use Illuminate\Support\Facades\Log;
 
-class PositionService
+class PositionService extends BaseService
 {
     private $data;
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         $this->data = $data;
     }
@@ -29,9 +29,15 @@ class PositionService
                 }
                 $positionTerminateName = $el['employees_position'];
             }
-            if($i  % 50  == 0) {
-                set_time_limit(30);
-            }
+            $this->provideConnection($i);
+        }
+    }
+
+    public function removeMassive() {
+        $position = Position::all();
+        foreach ($position as $i => $item) {
+            $item->delete();
+            $this->provideConnection($i);
         }
     }
 }

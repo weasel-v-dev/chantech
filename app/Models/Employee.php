@@ -21,11 +21,15 @@ class Employee extends Model
         'token'
     ];
 
-    public function getCompany() {
+    public function company() {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    public function getPosition() {
+    public function position() {
         return $this->belongsTo(Position::class, 'position_id', 'id');
+    }
+
+    public function review() {
+        return $this->hasMany(Review::class, 'employee_id', 'id');
     }
 }

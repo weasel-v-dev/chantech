@@ -7,11 +7,11 @@ namespace App\Services\Testimonials;
 use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 
-class CompanyService
+class CompanyService extends BaseService
 {
     private $data;
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         $this->data = $data;
     }
@@ -31,9 +31,15 @@ class CompanyService
                 }
                 $companyTerminateName = $el['company'];
             }
-            if($i  % 50  == 0) {
-                set_time_limit(1);
-            }
+            $this->provideConnection($i);
         };
+    }
+
+    public function removeMassive() {
+        $companies = Company::all();
+        foreach ($companies as $i => $item) {
+            $item->delete();
+            $this->provideConnection($i);
+        }
     }
 }
