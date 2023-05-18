@@ -7,7 +7,7 @@ namespace App\Services\Testimonials;
 use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 
-class CompanyService extends BaseService
+class CompanyService extends BaseService implements ITestimonial
 {
     private $data;
 

@@ -8,7 +8,7 @@ use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Position;
 
-class EmployeeService extends BaseService
+class EmployeeService extends BaseService implements ITestimonial
 {
     private $data;
 

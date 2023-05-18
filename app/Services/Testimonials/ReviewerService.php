@@ -7,7 +7,7 @@ namespace App\Services\Testimonials;
 use App\Models\Reviewer;
 use Illuminate\Support\Facades\Log;
 
-class ReviewerService extends BaseService
+class ReviewerService extends BaseService implements ITestimonial
 {
     private $data;
 

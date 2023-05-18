@@ -7,7 +7,7 @@ namespace App\Services\Testimonials;
 use App\Models\Position;
 use Illuminate\Support\Facades\Log;
 
-class PositionService extends BaseService
+class PositionService extends BaseService implements ITestimonial
 {
     private $data;
 

@@ -8,7 +8,7 @@ use App\Models\Employee;
 use App\Models\Review;
 use App\Models\Reviewer;
 
-class ReviewService extends BaseService
+class ReviewService extends BaseService implements ITestimonial
 {
     private $data;
 
