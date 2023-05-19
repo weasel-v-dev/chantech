@@ -9,8 +9,8 @@ class AggregatorService
     {
         $company = new CompanyService($data);
         $position = new PositionService($data);
-        $employee = new EmployeeService($data);
         $reviewer = new ReviewerService($data);
+        $employee = new EmployeeService($data);
         $review = new ReviewService($data);
 
         return [$company, $position, $reviewer, $employee, $review];

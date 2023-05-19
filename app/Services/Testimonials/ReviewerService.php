@@ -17,21 +17,27 @@ class ReviewerService extends BaseService implements ITestimonial
     }
 
     public function createMassive() {
-        $reviewerTerminateName = '';
-        foreach (collect($this->data)->sortBy('email') as $i => $el){
-            if(!empty($el['email']) && $reviewerTerminateName != $el['email']) {
-                try {
-                    Reviewer::create([
-                        'name' => !empty($el['reviewer']) ? $el['reviewer'] : '',
-                        'email' => $el['email']
-                    ]);
-                } catch (\Exception $e) {
-                    Log::error('Reviewer' . $e);
-                }
-                $reviewerTerminateName = $el['email'];
+        $filteredData = [];
+        foreach ($this->data as $i => $el){
+            if(!empty($el['email'])) {
+                $filteredData[] = [
+                    'name' => !empty($el['reviewer']) ? $el['reviewer'] : '',
+                    'email' => $el['email'],
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString()
+                ];
             }
             $this->provideConnection($i);
+        }
 
+        $chunks = array_chunk($filteredData, 10000);
+
+        try {
+            foreach ($chunks as $chunk) {
+                Reviewer::insert($chunk);
+            }
+        } catch (\Exception $e) {
+            Log::error('Reviewer' . $e);
         }
     }
 

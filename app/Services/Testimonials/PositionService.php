@@ -18,18 +18,28 @@ class PositionService extends BaseService implements ITestimonial
 
     public function createMassive() {
         $positionTerminateName = '';
-        foreach (collect($this->data)->sortBy('employees_position') as $i => $el){
+        $filteredData = [];
+        $sortedData = collect($this->data)->sortBy('employees_position');
+        foreach ($sortedData as $i => $el){
             if(!empty($el['employees_position']) && $positionTerminateName != $el['employees_position']) {
-                try {
-                    Position::create([
-                        'name' => $el['employees_position'],
-                    ]);
-                } catch (\Exception $e) {
-                    Log::error('Position' . $e);
-                }
-                $positionTerminateName = $el['employees_position'];
+               $filteredData[] = [
+                   'name' => $el['employees_position'],
+                   'created_at' => now()->toDateTimeString(),
+                   'updated_at' => now()->toDateTimeString()
+               ];
+               $positionTerminateName = $el['employees_position'];
             }
             $this->provideConnection($i);
+        }
+
+        $chunks = array_chunk($filteredData, 5);
+
+        try {
+            foreach ($chunks as $chunk){
+                Position::insert($chunk);
+            }
+        } catch (\Exception $e) {
+            Log::error('Position' . $e);
         }
     }
 

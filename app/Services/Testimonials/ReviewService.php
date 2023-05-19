@@ -7,6 +7,7 @@ namespace App\Services\Testimonials;
 use App\Models\Employee;
 use App\Models\Review;
 use App\Models\Reviewer;
+use Illuminate\Support\Facades\Log;
 
 class ReviewService extends BaseService implements ITestimonial
 {
@@ -18,19 +19,35 @@ class ReviewService extends BaseService implements ITestimonial
     }
 
     public function createMassive() {
-        collect($this->data)->map(function($el, $i) {
+        $filteredData = [];
+        foreach ($this->data as $i => $el){
             $reviewer = Reviewer::where('name', !empty($el['reviewer']) ? $el['reviewer'] : '')->first();
             $employee = Employee::where('name', !empty($el['employee']) ? $el['employee'] : '')->first();
 
             if(!empty($reviewer->id) && !empty($employee->id)) {
-                $reviewer->reviews()->create([
+                $filteredData[] = [
                     'description' => !empty($el['review']) ? $el['review'] : '',
                     'rating' => !empty($el['rating']) ? $el['rating'] : 0.0,
                     'employee_id' => $employee->id,
-                ]);
+                    'reviewer_id' => $reviewer->id,
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString()
+                ];
+
             }
+
             $this->provideConnection($i);
-        });
+        }
+
+        $chunks = array_chunk($filteredData, 10000);
+
+       try {
+           foreach ($chunks as $chunk) {
+                Review::insert($chunk);
+           }
+       } catch (\Exception $e) {
+           Log::error('Reviewer' . $e);
+       }
     }
 
     public function removeMassive() {
