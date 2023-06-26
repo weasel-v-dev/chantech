@@ -27,19 +27,27 @@ class PositionService extends BaseService implements ITestimonial
                    'created_at' => now()->toDateTimeString(),
                    'updated_at' => now()->toDateTimeString()
                ];
+
+                if($i % 5 === 0) {
+                    try {
+                        Position::insert($filteredData);
+                        $filteredData = [];
+                    } catch (\Exception $e) {
+                        Log::error('Position' . $e);
+                    }
+                }
+
                $positionTerminateName = $el['employees_position'];
             }
             $this->provideConnection($i);
         }
 
-        $chunks = array_chunk($filteredData, 5);
-
-        try {
-            foreach ($chunks as $chunk){
-                Position::insert($chunk);
+        if(count($filteredData)) {
+            try {
+                Position::insert($filteredData);
+            } catch (\Exception $e) {
+                Log::error('Position' . $e);
             }
-        } catch (\Exception $e) {
-            Log::error('Position' . $e);
         }
     }
 

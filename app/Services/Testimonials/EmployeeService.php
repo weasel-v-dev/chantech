@@ -30,7 +30,6 @@ class EmployeeService extends BaseService implements ITestimonial
             }
 
             if(!empty($company->id) && !empty($position->id) && !empty($el['employee']) && $employeeTerminateName != $el['employee']) {
-
                 $filteredData[] = [
                     'name' => $el['employee'],
                     'token' => !empty($el['unique_employee_number']) ? $el['unique_employee_number'] : '',
@@ -39,19 +38,27 @@ class EmployeeService extends BaseService implements ITestimonial
                     'created_at' => now()->toDateTimeString(),
                     'updated_at' => now()->toDateTimeString()
                 ];
+
+                if($i % 5000 === 0) {
+                    try {
+                        Employee::insert($filteredData);
+                        $filteredData = [];
+                    } catch (\Exception $e) {
+                        Log::error('Employee' . $e);
+                    }
+                }
+
                 $employeeTerminateName = $el['employee'];
             }
             $this->provideConnection($i);
         }
 
-        $chunks = array_chunk($filteredData, 10000);
-
-        try {
-            foreach ($chunks as $chunk) {
-                Employee::insert($chunk);
+        if(count($filteredData)) {
+            try {
+                Employee::insert($filteredData);
+            } catch (\Exception $e) {
+                Log::error('Employee' . $e);
             }
-        } catch (\Exception $e) {
-            Log::error('Company' . $e);
         }
     }
 

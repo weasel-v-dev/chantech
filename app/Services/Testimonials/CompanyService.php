@@ -20,6 +20,7 @@ class CompanyService extends BaseService implements ITestimonial
         $companyTerminateName = '';
         $filteredData = [];
         $data = collect($this->data)->sortBy('company');
+
         foreach ($data as $i => $el){
             if(!empty($el['company']) && $companyTerminateName != $el['company']) {
                 $filteredData[] = [
@@ -29,19 +30,25 @@ class CompanyService extends BaseService implements ITestimonial
                     'updated_at' => now()->toDateTimeString()
                 ];
 
+                if($i % 10 === 0) {
+                    try {
+                        Company::insert($filteredData);
+                        $filteredData = [];
+                    } catch (\Exception $e) {
+                        Log::error('Company' . $e);
+                    }
+                }
+
                 $companyTerminateName = $el['company'];
             }
             $this->provideConnection($i);
         }
-
-        $chunks = array_chunk($filteredData, 5000);
-
-        try {
-            foreach ($chunks as $chunk) {
-                Company::insert($chunk);
+        if(count($filteredData)) {
+            try {
+                Company::insert($filteredData);
+            } catch (\Exception $e) {
+                Log::error('Company' . $e);
             }
-        } catch (\Exception $e) {
-            Log::error('Company' . $e);
         }
     }
 

@@ -34,20 +34,26 @@ class ReviewService extends BaseService implements ITestimonial
                     'updated_at' => now()->toDateTimeString()
                 ];
 
+                if($i % 10000 === 0) {
+                    try {
+                        Review::insert($filteredData);
+                        $filteredData = [];
+                    } catch (\Exception $e) {
+                        Log::error('Reviewer' . $e);
+                    }
+                }
             }
 
             $this->provideConnection($i);
         }
 
-        $chunks = array_chunk($filteredData, 10000);
-
-       try {
-           foreach ($chunks as $chunk) {
-                Review::insert($chunk);
-           }
-       } catch (\Exception $e) {
-           Log::error('Reviewer' . $e);
-       }
+        if(count($filteredData)) {
+            try {
+                Review::insert($filteredData);
+            } catch (\Exception $e) {
+                Log::error('Review' . $e);
+            }
+        }
     }
 
     public function removeMassive() {

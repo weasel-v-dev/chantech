@@ -22,7 +22,7 @@ class CreateReviewsTable extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
 
-            $table->text('description')->default('');
+            $table->text('description')->nullable();
             $table->float('rating')->nullable();
             $table->timestamps();
         });

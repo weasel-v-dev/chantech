@@ -26,19 +26,27 @@ class ReviewerService extends BaseService implements ITestimonial
                     'created_at' => now()->toDateTimeString(),
                     'updated_at' => now()->toDateTimeString()
                 ];
+
+                if($i % 10000 === 0) {
+                    try {
+                        Reviewer::insert($filteredData);
+                        $filteredData = [];
+                    } catch (\Exception $e) {
+                        Log::error('Reviewer' . $e);
+                    }
+                }
             }
             $this->provideConnection($i);
         }
 
-        $chunks = array_chunk($filteredData, 10000);
-
-        try {
-            foreach ($chunks as $chunk) {
-                Reviewer::insert($chunk);
+        if(count($filteredData)) {
+            try {
+                Reviewer::insert($filteredData);
+            } catch (\Exception $e) {
+                Log::error('Reviewer' . $e);
             }
-        } catch (\Exception $e) {
-            Log::error('Reviewer' . $e);
         }
+
     }
 
     public function removeMassive() {
