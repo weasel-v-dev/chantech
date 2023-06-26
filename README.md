@@ -28,3 +28,9 @@ npm run prod
 ```
 php artisan serve
 ```
+
+>Register and log in to your account.
+
+> Get the example-for-test.csv file from the root of this project and load it into the form
+
+>Look at the reviews on the main page.
