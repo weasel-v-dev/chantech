@@ -30,7 +30,7 @@ class CompanyService extends BaseService implements ITestimonial
                     'updated_at' => now()->toDateTimeString()
                 ];
 
-                if($i % 10 === 0) {
+                if($i % 5000 === 0) {
                     try {
                         Company::insert($filteredData);
                         $filteredData = [];

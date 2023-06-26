@@ -39,7 +39,7 @@ class EmployeeService extends BaseService implements ITestimonial
                     'updated_at' => now()->toDateTimeString()
                 ];
 
-                if($i % 5000 === 0) {
+                if($i % 10000 === 0) {
                     try {
                         Employee::insert($filteredData);
                         $filteredData = [];
