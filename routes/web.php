@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TestimonialController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-Route::get('/testimonial/', [App\Http\Controllers\TestimonialController::class, 'index']);
+Route::get('/testimonial/', [TestimonialController::class, 'index']);
 
 Auth::routes(['verify' => true]);
 
@@ -27,8 +28,8 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
     Route::get('/blog', function () {
         return view('blog');
     });
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::post('/distribution', [App\Http\Controllers\HomeController::class, 'distribution']);
-    Route::post('/testimonial/clean', [App\Http\Controllers\TestimonialController::class, 'clean']);
-    Route::get('/testimonial/check', [App\Http\Controllers\TestimonialController::class, 'check']);
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+    Route::post('/distribution', [HomeController::class, 'distribution']);
+    Route::post('/testimonial/clean', [TestimonialController::class, 'clean']);
+    Route::get('/testimonial/check', [TestimonialController::class, 'check']);
 });
